@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Obstacle Detecting & Object Handling Bot | Md. Zawadul Islam
+  </title>
+
+  <meta
+    name="description"
+    content="Obstacle Detecting and Object Handling Bot developed using Arduino Uno, ultrasonic sensing, motor control and servo-based object handling."
+  >
+
+  <link rel="stylesheet" href="../style.css">
+
+
+  <style>
+
+    /* ================================
+       PROJECT PAGE
+    ================================= */
+
+    .project-page {
+      padding-top: 140px;
+      padding-bottom: 100px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--primary);
+      margin-bottom: 35px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: #7dd3fc;
+    }
+
+
+    /* ================================
+       PROJECT HERO
+    ================================= */
+
+    .project-hero {
+      max-width: 900px;
+      margin-bottom: 70px;
+    }
+
+    .project-hero-label {
+      color: var(--primary);
+      font-size: 12px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .project-hero h1 {
+      font-size: clamp(42px, 7vw, 75px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 25px;
+    }
+
+    .project-hero-description {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 800px;
+      margin-bottom: 30px;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .project-meta span {
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+
+    /* ================================
+       QUICK DETAILS
+    ================================= */
+
+    .project-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 70px;
+    }
+
+    .detail-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .detail-card h3 {
+      color: var(--primary);
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .detail-card p {
+      color: var(--text-muted);
+    }
+
+
+    /* ================================
+       GENERAL PROJECT SECTIONS
+    ================================= */
+
+    .project-section {
+      margin-bottom: 80px;
+      max-width: 950px;
+    }
+
+    .project-section-number {
+      color: var(--primary);
+      font-size: 12px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-section h2 {
+      font-size: 34px;
+      margin-bottom: 20px;
+    }
+
+    .project-section p {
+      color: var(--text-muted);
+      margin-bottom: 17px;
+      font-size: 16px;
+    }
+
+
+    /* ================================
+       PROJECT GALLERY
+    ================================= */
+
+    .project-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .project-gallery figure {
+      margin: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .project-gallery figure:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .project-gallery img {
+      width: 100%;
+      height: 300px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .project-gallery figcaption {
+      padding: 14px 16px;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .project-file-buttons {
+      margin-top: 25px;
+    }
+
+
+    /* ================================
+       COMPONENTS
+    ================================= */
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .component {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 18px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .component:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .component strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .component span {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+
+    /* ================================
+       WORKFLOW
+    ================================= */
+
+    .workflow {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .workflow-step {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      gap: 18px;
+      align-items: center;
+
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 17px;
+      border-radius: 8px;
+    }
+
+    .workflow-number {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .workflow-step p {
+      margin: 0;
+    }
+
+
+    /* ================================
+       RESULT CARD
+    ================================= */
+
+    .result-card {
+      margin-top: 25px;
+
+      border-left: 3px solid var(--primary);
+
+      background: rgba(56, 189, 248, 0.05);
+
+      padding: 25px;
+    }
+
+    .result-card ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    .result-card li {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+
+    /* ================================
+       MY ROLE
+    ================================= */
+
+    .role-box {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(56, 189, 248, 0.12),
+          var(--card)
+        );
+
+      border: 1px solid rgba(56, 189, 248, 0.3);
+
+      border-radius: 12px;
+
+      padding: 35px;
+
+      margin-top: 25px;
+    }
+
+    .role-box h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .role-box ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    .role-box li {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 760px) {
+
+      .project-detail-grid,
+      .component-grid,
+      .project-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .project-page {
+        padding-top: 110px;
+      }
+
+      .project-hero h1 {
+        font-size: 42px;
+      }
+
+      .project-gallery img {
+        height: auto;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ================================
+       NAVIGATION
+  ================================= -->
+
+  <header class="header">
+
+    <nav class="navbar container">
+
+      <a href="../index.html" class="logo">
+        ZAWADUL<span>.</span>
+      </a>
+
+
+      <ul class="nav-links" id="navLinks">
+
+        <li>
+          <a href="../index.html">Home</a>
+        </li>
+
+        <li>
+          <a href="../index.html#about">About</a>
+        </li>
+
+        <li>
+          <a href="../index.html#projects">Projects</a>
+        </li>
+
+        <li>
+          <a href="../index.html#skills">Skills</a>
+        </li>
+
+        <li>
+          <a href="../index.html#contact">Contact</a>
+        </li>
+
+      </ul>
+
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open navigation menu"
+      >
+        ☰
+      </button>
+
+    </nav>
+
+  </header>
+
+
+
+  <main class="project-page">
+
+    <div class="container">
+
+
+      <!-- BACK -->
+
+      <a
+        href="../index.html#projects"
+        class="back-link"
+      >
+        ← Back to Projects
+      </a>
+
+
+
+      <!-- ================================
+           PROJECT HERO
+      ================================= -->
+
+      <section class="project-hero">
+
+        <p class="project-hero-label">
+          ROBOTICS / EMBEDDED SYSTEMS
+        </p>
+
+
+        <h1>
+          Obstacle Detecting & Object Handling Bot
+        </h1>
+
+
+        <p class="project-hero-description">
+
+          An autonomous Arduino-based mobile robot designed to
+          detect obstacles, evaluate its surroundings and perform
+          object-handling operations using a servo-controlled
+          robotic arm and gripper.
+
+        </p>
+
+
+        <div class="project-meta">
+
+          <span>Arduino Uno</span>
+
+          <span>HC-SR04</span>
+
+          <span>L298N</span>
+
+          <span>SG90</span>
+
+          <span>MG996R</span>
+
+          <span>Embedded Programming</span>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           QUICK DETAILS
+      ================================= -->
+
+      <div class="project-detail-grid">
+
+
+        <div class="detail-card">
+
+          <h3>
+            PROJECT TYPE
+          </h3>
+
+          <p>
+            Open-Ended Lab Project
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            COURSE
+          </h3>
+
+          <p>
+            EEE 3210 — Micro-processor Unit Lab
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            CORE AREA
+          </h3>
+
+          <p>
+            Robotics, Embedded Systems & Automation
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            MY PRIMARY ROLE
+          </h3>
+
+          <p>
+            Arduino Programming Lead & Bot Development
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ================================
+           01 OVERVIEW
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          01 / OVERVIEW
+        </p>
+
+
+        <h2>
+          Project Overview
+        </h2>
+
+
+        <p>
+
+          The project demonstrates a small-scale autonomous
+          robotic system capable of combining mobility, obstacle
+          detection and physical object manipulation.
+
+        </p>
+
+
+        <p>
+
+          The robot moves through its environment while an
+          ultrasonic sensor continuously monitors the path ahead.
+          When an obstacle is detected, the robot stops and uses
+          sensor scanning to evaluate its surroundings.
+
+        </p>
+
+
+        <p>
+
+          A robotic arm and gripper mechanism then allows the
+          system to grip, lift, transport and release an object
+          into a designated location.
+
+        </p>
+
+      </section>
+
+
+
+      <!-- ================================
+           02 PROJECT MEDIA
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          02 / PROJECT MEDIA
+        </p>
+
+
+        <h2>
+          Project Gallery
+        </h2>
+
+
+        <p>
+
+          Selected photographs and project documentation from
+          the Obstacle Detecting & Object Handling Bot.
+
+        </p>
+
+
+        <div class="project-gallery">
+
+
+          <figure>
+
+            <img
+              src="../assets/projects/obstacle-bot/robot-front.jpg"
+              alt="Front view of the Obstacle Detecting and Object Handling Bot"
+            >
+
+            <figcaption>
+              Obstacle Detecting & Object Handling Bot
+            </figcaption>
+
+          </figure>
+
+
+          <figure>
+
+            <img
+              src="../assets/projects/obstacle-bot/robot-project-photo.jpg"
+              alt="Hardware view of the Obstacle Detecting and Object Handling Bot"
+            >
+
+            <figcaption>
+              Robot Hardware & Assembly
+            </figcaption>
+
+          </figure>
+
+
+        </div>
+
+
+        <div class="project-file-buttons">
+
+          <a
+            href="../assets/projects/obstacle-bot/obstacle-bot-report.docx"
+            class="btn secondary-btn"
+            target="_blank"
+          >
+            View Project Report
+          </a>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           03 OBJECTIVES
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          03 / OBJECTIVES
+        </p>
+
+
+        <h2>
+          Project Objectives
+        </h2>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+              Design a mobile robot capable of automatically
+              detecting obstacles.
+            </li>
+
+            <li>
+              Develop a robotic arm capable of gripping and
+              releasing objects.
+            </li>
+
+            <li>
+              Program the robot using Arduino for autonomous
+              operation.
+            </li>
+
+            <li>
+              Demonstrate the principles of a simplified
+              pick-and-place robotic system.
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           04 HARDWARE
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          04 / HARDWARE
+        </p>
+
+
+        <h2>
+          Components Used
+        </h2>
+
+
+        <div class="component-grid">
+
+
+          <div class="component">
+
+            <strong>
+              Arduino Uno
+            </strong>
+
+            <span>
+              Main microcontroller responsible for system
+              decision-making and control.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              HC-SR04 Ultrasonic Sensor
+            </strong>
+
+            <span>
+              Measures distance and detects obstacles in the
+              robot's path.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              L298N Motor Driver
+            </strong>
+
+            <span>
+              Controls the motors responsible for robot movement.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              MG996R Servo Motor
+            </strong>
+
+            <span>
+              High-torque servo used within the robotic arm
+              mechanism.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              SG90 Servo Motor
+            </strong>
+
+            <span>
+              Used for servo-controlled movement and sensor or
+              gripper mechanisms.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              Gripper Mechanism
+            </strong>
+
+            <span>
+              Responsible for gripping and releasing objects.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              Chassis & Wheels
+            </strong>
+
+            <span>
+              Provides the physical mobile platform.
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              9–12 V Battery Supply
+            </strong>
+
+            <span>
+              Provides power for the motors and electronic
+              system.
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           05 WORKING PRINCIPLE
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          05 / WORKING PRINCIPLE
+        </p>
+
+
+        <h2>
+          How the Robot Works
+        </h2>
+
+
+        <div class="workflow">
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              01
+            </span>
+
+            <p>
+              The robot begins by moving forward.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              02
+            </span>
+
+            <p>
+
+              The HC-SR04 ultrasonic sensor continuously scans
+              the path ahead.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              03
+            </span>
+
+            <p>
+
+              When an obstacle is detected within approximately
+              15 cm, the robot stops.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              04
+            </span>
+
+            <p>
+
+              The ultrasonic sensor mounted on a servo rotates
+              left and right to scan the surrounding path.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              05
+            </span>
+
+            <p>
+
+              The control logic evaluates the scan and determines
+              the clearer direction.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              06
+            </span>
+
+            <p>
+
+              The robotic arm lowers and grips the object using
+              the servo-controlled gripper.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              07
+            </span>
+
+            <p>
+              The robotic arm lifts the object.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              08
+            </span>
+
+            <p>
+              The robot moves toward the designated drop zone.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              09
+            </span>
+
+            <p>
+
+              The gripper releases the object into the
+              designated box.
+
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              10
+            </span>
+
+            <p>
+
+              The arm returns to its initial position and the
+              operating cycle continues.
+
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           06 PROGRAMMING
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          06 / PROGRAMMING
+        </p>
+
+
+        <h2>
+          Arduino Control Logic
+        </h2>
+
+
+        <p>
+
+          The Arduino Uno was programmed using the Arduino IDE.
+          The program integrates distance measurement, motor
+          control, servo operation and autonomous
+          condition-based decision logic.
+
+        </p>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+              Distance measurement using the HC-SR04 ultrasonic sensor
+            </li>
+
+            <li>
+              Forward, backward, left, right and stop motor commands
+            </li>
+
+            <li>
+              Robotic-arm servo control
+            </li>
+
+            <li>
+              Gripper opening and closing
+            </li>
+
+            <li>
+              Ultrasonic sensor directional scanning
+            </li>
+
+            <li>
+              Condition-based autonomous decision logic
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           07 RESULTS
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          07 / RESULTS
+        </p>
+
+
+        <h2>
+          Results
+        </h2>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+
+              The robot successfully detected obstacles within
+              the intended 15 cm range.
+
+            </li>
+
+            <li>
+
+              The robotic arm successfully picked up and
+              released objects.
+
+            </li>
+
+            <li>
+
+              Ultrasonic scanning enabled the robot to evaluate
+              direction before movement.
+
+            </li>
+
+            <li>
+
+              Testing on classroom and laboratory floors
+              produced consistent results.
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           08 MY CONTRIBUTION
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          08 / MY CONTRIBUTION
+        </p>
+
+
+        <h2>
+          My Role in the Project
+        </h2>
+
+
+        <div class="role-box">
+
+          <h3>
+            Arduino Programming Lead & Bot Development
+          </h3>
+
+
+          <ul>
+
+            <li>
+              Led the Arduino programming section of the project.
+            </li>
+
+            <li>
+
+              Contributed significantly to building and
+              integrating the physical robot.
+
+            </li>
+
+            <li>
+              Supported preparation of the project presentation.
+            </li>
+
+            <li>
+
+              Contributed to project video editing and
+              demonstration preparation.
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           09 APPLICATIONS
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          09 / APPLICATIONS
+        </p>
+
+
+        <h2>
+          Potential Applications
+        </h2>
+
+
+        <div class="component-grid">
+
+
+          <div class="component">
+
+            <strong>
+              Industrial Automation
+            </strong>
+
+            <span>
+
+              Automated pick-and-place operations in
+              manufacturing environments.
+
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              Warehousing & Logistics
+            </strong>
+
+            <span>
+
+              Automated movement and sorting of objects or
+              packages.
+
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              Waste Management
+            </strong>
+
+            <span>
+
+              Autonomous collection and placement of waste
+              materials.
+
+            </span>
+
+          </div>
+
+
+          <div class="component">
+
+            <strong>
+              Assistive Robotics
+            </strong>
+
+            <span>
+
+              Development of service robots capable of handling
+              small objects.
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           10 FUTURE WORK
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          10 / FUTURE WORK
+        </p>
+
+
+        <h2>
+          Future Improvements
+        </h2>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+              Add camera-based or AI-based object recognition.
+            </li>
+
+            <li>
+
+              Develop a more flexible gripper for objects of
+              different shapes and weights.
+
+            </li>
+
+            <li>
+
+              Optimize motor control to improve operating speed
+              and efficiency.
+
+            </li>
+
+            <li>
+
+              Add wireless communication for remote monitoring.
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- BACK -->
+
+      <a
+        href="../index.html#projects"
+        class="btn primary-btn"
+      >
+        ← Back to All Projects
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+
+  <footer class="footer">
+
+    <div class="container footer-content">
+
+      <p>
+        © 2026 Md. Zawadul Islam
+      </p>
+
+      <p>
+        Electrical & Electronic Engineering
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <script src="../script.js"></script>
+
+
+</body>
+
+</html>

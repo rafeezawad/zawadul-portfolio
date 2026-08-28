@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    AR Frequency Estimation of Voice Signal | Md. Zawadul Islam
+  </title>
+
+  <meta
+    name="description"
+    content="MATLAB digital signal processing project comparing Burg, Yule-Walker and Levinson-Durbin autoregressive methods for dominant frequency estimation from a voice signal."
+  >
+
+  <link rel="stylesheet" href="../style.css">
+
+
+  <style>
+
+    /* ================================
+       PROJECT PAGE
+    ================================= */
+
+    .project-page {
+      padding-top: 140px;
+      padding-bottom: 100px;
+    }
+
+    .back-link {
+      display: inline-block;
+
+      color: var(--primary);
+
+      margin-bottom: 35px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: #7dd3fc;
+    }
+
+
+    /* ================================
+       PROJECT HERO
+    ================================= */
+
+    .project-hero {
+      max-width: 920px;
+
+      margin-bottom: 70px;
+    }
+
+    .project-hero-label {
+      color: var(--primary);
+
+      font-size: 12px;
+
+      letter-spacing: 3px;
+
+      font-weight: 700;
+
+      margin-bottom: 15px;
+    }
+
+    .project-hero h1 {
+      font-size: clamp(42px, 7vw, 75px);
+
+      line-height: 1.05;
+
+      letter-spacing: -2px;
+
+      margin-bottom: 25px;
+    }
+
+    .project-hero-description {
+      color: var(--text-muted);
+
+      font-size: 18px;
+
+      max-width: 820px;
+
+      margin-bottom: 30px;
+    }
+
+    .project-meta {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+    }
+
+    .project-meta span {
+      padding: 8px 13px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 50px;
+
+      color: var(--text-muted);
+
+      font-size: 13px;
+    }
+
+
+    /* ================================
+       QUICK DETAILS
+    ================================= */
+
+    .project-detail-grid {
+      display: grid;
+
+      grid-template-columns: repeat(4, 1fr);
+
+      gap: 15px;
+
+      margin-bottom: 75px;
+    }
+
+    .detail-card {
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 12px;
+
+      padding: 25px;
+    }
+
+    .detail-card h3 {
+      color: var(--primary);
+
+      font-size: 12px;
+
+      letter-spacing: 1px;
+
+      margin-bottom: 10px;
+    }
+
+    .detail-card p {
+      color: var(--text-muted);
+
+      font-size: 14px;
+    }
+
+
+    /* ================================
+       GENERAL PROJECT SECTIONS
+    ================================= */
+
+    .project-section {
+      margin-bottom: 80px;
+
+      max-width: 980px;
+    }
+
+    .project-section-number {
+      color: var(--primary);
+
+      font-size: 12px;
+
+      letter-spacing: 3px;
+
+      font-weight: 700;
+
+      margin-bottom: 10px;
+    }
+
+    .project-section h2 {
+      font-size: 34px;
+
+      margin-bottom: 20px;
+    }
+
+    .project-section p {
+      color: var(--text-muted);
+
+      margin-bottom: 17px;
+
+      font-size: 16px;
+    }
+
+
+    /* ================================
+       DOCUMENTATION BUTTON
+    ================================= */
+
+    .project-file-buttons {
+      margin-top: 25px;
+    }
+
+
+    /* ================================
+       METHODS
+    ================================= */
+
+    .method-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 15px;
+
+      margin-top: 30px;
+    }
+
+    .method-card {
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      padding: 25px;
+
+      border-radius: 10px;
+
+      transition: 0.3s;
+    }
+
+    .method-card:hover {
+      transform: translateY(-3px);
+
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .method-card h3 {
+      color: var(--primary);
+
+      margin-bottom: 10px;
+    }
+
+    .method-card p {
+      margin: 0;
+
+      font-size: 14px;
+    }
+
+
+    /* ================================
+       WORKFLOW
+    ================================= */
+
+    .workflow {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+      margin-top: 30px;
+    }
+
+    .workflow-step {
+      display: grid;
+
+      grid-template-columns: 55px 1fr;
+
+      gap: 18px;
+
+      align-items: center;
+
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      padding: 18px;
+
+      border-radius: 8px;
+    }
+
+    .workflow-number {
+      color: var(--primary);
+
+      font-weight: 700;
+    }
+
+    .workflow-step p {
+      margin: 0;
+    }
+
+
+    /* ================================
+       AR RESULTS GALLERY
+    ================================= */
+
+    .ar-results-gallery {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 18px;
+
+      margin-top: 30px;
+    }
+
+    .ar-result-item {
+      margin: 0;
+
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+
+      overflow: hidden;
+
+      transition: 0.3s;
+    }
+
+    .ar-result-item:hover {
+      transform: translateY(-4px);
+
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .ar-result-item img {
+      width: 100%;
+
+      height: 220px;
+
+      display: block;
+
+      object-fit: contain;
+
+      background: white;
+    }
+
+    .ar-result-item figcaption {
+      padding: 14px 16px;
+
+      color: var(--text-muted);
+
+      font-size: 13px;
+
+      text-align: center;
+    }
+
+
+    /* ================================
+       RESULT CARDS
+    ================================= */
+
+    .result-card {
+      margin-top: 25px;
+
+      border-left: 3px solid var(--primary);
+
+      background: rgba(56, 189, 248, 0.05);
+
+      padding: 25px;
+    }
+
+    .result-card ul {
+      list-style: disc;
+
+      padding-left: 20px;
+    }
+
+    .result-card li {
+      color: var(--text-muted);
+
+      margin-bottom: 10px;
+    }
+
+
+    /* ================================
+       TABLET
+    ================================= */
+
+    @media (max-width: 900px) {
+
+      .project-detail-grid,
+      .method-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ar-results-gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 760px) {
+
+      .project-detail-grid,
+      .method-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-page {
+        padding-top: 110px;
+      }
+
+      .project-hero h1 {
+        font-size: 42px;
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .ar-results-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .ar-result-item img {
+        height: auto;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ================================
+       NAVIGATION
+  ================================= -->
+
+  <header class="header">
+
+    <nav class="navbar container">
+
+      <a href="../index.html" class="logo">
+        ZAWADUL<span>.</span>
+      </a>
+
+
+      <ul class="nav-links" id="navLinks">
+
+        <li>
+          <a href="../index.html">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a href="../index.html#about">
+            About
+          </a>
+        </li>
+
+        <li>
+          <a href="../index.html#projects">
+            Projects
+          </a>
+        </li>
+
+        <li>
+          <a href="../index.html#skills">
+            Skills
+          </a>
+        </li>
+
+        <li>
+          <a href="../index.html#contact">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open navigation menu"
+      >
+        ☰
+      </button>
+
+    </nav>
+
+  </header>
+
+
+
+  <!-- ================================
+       PROJECT PAGE
+  ================================= -->
+
+  <main class="project-page">
+
+    <div class="container">
+
+
+      <!-- BACK BUTTON -->
+
+      <a
+        href="../index.html#projects"
+        class="back-link"
+      >
+        ← Back to Projects
+      </a>
+
+
+
+      <!-- ================================
+           PROJECT HERO
+      ================================= -->
+
+      <section class="project-hero">
+
+        <p class="project-hero-label">
+          DIGITAL SIGNAL PROCESSING / MATLAB
+        </p>
+
+
+        <h1>
+          AR Frequency Estimation of Voice Signal
+        </h1>
+
+
+        <p class="project-hero-description">
+
+          A MATLAB-based digital signal processing project applying
+          autoregressive modeling techniques to a recorded voice signal
+          and estimating its dominant frequency components.
+
+        </p>
+
+
+        <div class="project-meta">
+
+          <span>MATLAB</span>
+
+          <span>DSP</span>
+
+          <span>AR Modeling</span>
+
+          <span>Burg</span>
+
+          <span>Yule-Walker</span>
+
+          <span>Levinson-Durbin</span>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           QUICK DETAILS
+      ================================= -->
+
+      <div class="project-detail-grid">
+
+
+        <div class="detail-card">
+
+          <h3>
+            PROJECT AREA
+          </h3>
+
+          <p>
+            Digital Signal Processing
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            PLATFORM
+          </h3>
+
+          <p>
+            MATLAB
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            INPUT
+          </h3>
+
+          <p>
+            Recorded Voice Signal
+          </p>
+
+        </div>
+
+
+        <div class="detail-card">
+
+          <h3>
+            OUTPUT
+          </h3>
+
+          <p>
+            Dominant Frequency Estimates
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ================================
+           01 OVERVIEW
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          01 / OVERVIEW
+        </p>
+
+
+        <h2>
+          Project Overview
+        </h2>
+
+
+        <p>
+
+          The objective of this project was to analyze a recorded
+          voice signal using autoregressive signal modeling and
+          estimate the dominant frequency components represented
+          by the AR model.
+
+        </p>
+
+
+        <p>
+
+          Three related AR approaches were implemented and compared:
+          Burg, Yule-Walker and Levinson-Durbin.
+
+        </p>
+
+      </section>
+
+
+
+      <!-- ================================
+           02 DOCUMENTATION
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          02 / DOCUMENTATION
+        </p>
+
+
+        <h2>
+          Project Report
+        </h2>
+
+
+        <p>
+
+          Detailed documentation of the MATLAB-based AR frequency
+          estimation project is available below.
+
+        </p>
+
+
+        <div class="project-file-buttons">
+
+          <a
+            href="../assets/projects/ar-frequency/ar-frequency-report.pdf"
+            class="btn secondary-btn"
+            target="_blank"
+          >
+            View Project Report
+          </a>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           03 METHODS
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          03 / METHODS
+        </p>
+
+
+        <h2>
+          AR Estimation Methods
+        </h2>
+
+
+        <div class="method-grid">
+
+
+          <!-- BURG -->
+
+          <div class="method-card">
+
+            <h3>
+              Burg Method
+            </h3>
+
+            <p>
+
+              Applied autoregressive modeling using the Burg
+              approach to estimate model coefficients from the
+              recorded signal.
+
+            </p>
+
+          </div>
+
+
+          <!-- YULE WALKER -->
+
+          <div class="method-card">
+
+            <h3>
+              Yule-Walker
+            </h3>
+
+            <p>
+
+              Estimated AR parameters using the Yule-Walker
+              equations derived from signal autocorrelation.
+
+            </p>
+
+          </div>
+
+
+          <!-- LEVINSON DURBIN -->
+
+          <div class="method-card">
+
+            <h3>
+              Levinson-Durbin
+            </h3>
+
+            <p>
+
+              Applied Levinson-Durbin recursion in the AR
+              coefficient estimation and analysis process.
+
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           04 PROCESS
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          04 / PROCESS
+        </p>
+
+
+        <h2>
+          Signal Processing Workflow
+        </h2>
+
+
+        <div class="workflow">
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              01
+            </span>
+
+            <p>
+              Record or import the voice signal into MATLAB.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              02
+            </span>
+
+            <p>
+              Process the signal for autoregressive modeling.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              03
+            </span>
+
+            <p>
+              Estimate AR coefficients using the Burg method.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              04
+            </span>
+
+            <p>
+              Estimate AR coefficients using the Yule-Walker method.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              05
+            </span>
+
+            <p>
+              Apply Levinson-Durbin recursion for AR analysis.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              06
+            </span>
+
+            <p>
+              Determine dominant spectral peaks from the resulting models.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              07
+            </span>
+
+            <p>
+              Extract the first seven dominant frequency estimates.
+            </p>
+
+          </div>
+
+
+          <div class="workflow-step">
+
+            <span class="workflow-number">
+              08
+            </span>
+
+            <p>
+              Compare the estimation results and model performance.
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           05 RESULTS & VISUALIZATION
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          05 / RESULTS & VISUALIZATION
+        </p>
+
+
+        <h2>
+          MATLAB Analysis Results
+        </h2>
+
+
+        <p>
+
+          Selected MATLAB outputs from the autoregressive frequency
+          estimation and signal-analysis process.
+
+        </p>
+
+
+        <div class="ar-results-gallery">
+
+
+          <!-- IMAGE 1 -->
+
+          <figure class="ar-result-item">
+
+            <img
+              src="../assets/projects/ar-frequency/pic1.png"
+              alt="MATLAB AR frequency estimation result 1"
+            >
+
+            <figcaption>
+              MATLAB Signal Analysis
+            </figcaption>
+
+          </figure>
+
+
+
+          <!-- IMAGE 2 -->
+
+          <figure class="ar-result-item">
+
+            <img
+              src="../assets/projects/ar-frequency/pic2.png"
+              alt="MATLAB AR frequency estimation result 2"
+            >
+
+            <figcaption>
+              AR Frequency Estimation
+            </figcaption>
+
+          </figure>
+
+
+
+          <!-- IMAGE 3 -->
+
+          <figure class="ar-result-item">
+
+            <img
+              src="../assets/projects/ar-frequency/pic3.png"
+              alt="MATLAB AR frequency estimation result 3"
+            >
+
+            <figcaption>
+              Frequency Analysis Result
+            </figcaption>
+
+          </figure>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           06 PROJECT OUTCOMES
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          06 / PROJECT OUTCOMES
+        </p>
+
+
+        <h2>
+          Project Outcomes
+        </h2>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+
+              Implemented three autoregressive estimation
+              approaches in MATLAB.
+
+            </li>
+
+
+            <li>
+
+              Modeled a recorded human voice signal using
+              AR coefficients.
+
+            </li>
+
+
+            <li>
+
+              Estimated the first seven dominant frequencies
+              from the modeled signal.
+
+            </li>
+
+
+            <li>
+
+              Compared the methods based on frequency-estimation
+              behavior and model performance.
+
+            </li>
+
+
+            <li>
+
+              Strengthened practical understanding of spectral
+              analysis and parametric signal modeling.
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           07 TECHNICAL LEARNING
+      ================================= -->
+
+      <section class="project-section">
+
+        <p class="project-section-number">
+          07 / TECHNICAL LEARNING
+        </p>
+
+
+        <h2>
+          Skills Applied
+        </h2>
+
+
+        <div class="result-card">
+
+          <ul>
+
+            <li>
+              MATLAB Programming
+            </li>
+
+            <li>
+              Digital Signal Processing
+            </li>
+
+            <li>
+              Autoregressive Signal Modeling
+            </li>
+
+            <li>
+              Frequency Estimation
+            </li>
+
+            <li>
+              Spectral Analysis
+            </li>
+
+            <li>
+              Signal Analysis and Method Comparison
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================================
+           BACK TO PROJECTS
+      ================================= -->
+
+      <a
+        href="../index.html#projects"
+        class="btn primary-btn"
+      >
+        ← Back to All Projects
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+
+  <!-- ================================
+       FOOTER
+  ================================= -->
+
+  <footer class="footer">
+
+    <div class="container footer-content">
+
+      <p>
+        © 2026 Md. Zawadul Islam
+      </p>
+
+      <p>
+        Electrical & Electronic Engineering
+      </p>
+
+    </div>
+
+  </footer>
+
+
+
+  <script src="../script.js"></script>
+
+
+</body>
+
+</html>
