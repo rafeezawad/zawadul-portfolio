@@ -965,21 +965,81 @@ img {
   display: grid;
 
   grid-template-columns:
-    155px
-    1fr
-    125px;
+    66px
+    145px
+    minmax(0, 1fr)
+    120px;
 
-  gap: 30px;
+  gap: 24px;
 
   align-items: center;
 
-  padding: 27px 0;
+  padding: 24px 0;
 
   border-bottom:
     1px solid var(--line);
 
+  transition:
+    background 0.25s ease,
+    padding-left 0.25s ease,
+    padding-right 0.25s ease;
+
 }
 
+
+.education-item:hover {
+
+  padding-left: 10px;
+
+  padding-right: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.012);
+
+}
+
+
+/* LOGO CONTAINER */
+
+.education-logo {
+
+  width: 56px;
+
+  height: 56px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 12px;
+
+}
+
+
+/* LOGO IMAGE */
+
+.education-logo img {
+
+  width: 44px;
+
+  height: 44px;
+
+  object-fit: contain;
+
+}
+
+
+/* YEAR */
 
 .education-year {
 
@@ -989,14 +1049,24 @@ img {
 
   font-weight: 700;
 
+  letter-spacing: 0.5px;
+
 }
 
+
+/* INSTITUTION */
 
 .education-detail h3 {
 
   margin-bottom: 5px;
 
-  font-size: 20px;
+  font-size: 19px;
+
+  line-height: 1.35;
+
+  letter-spacing: -0.45px;
+
+  font-weight: 600;
 
 }
 
@@ -1010,6 +1080,8 @@ img {
 }
 
 
+/* RESULT */
+
 .education-result {
 
   color: var(--text-soft);
@@ -1019,6 +1091,8 @@ img {
   font-size: 12px;
 
   font-weight: 600;
+
+  white-space: nowrap;
 
 }
 
@@ -2389,7 +2463,102 @@ img {
 
 
   /* EDUCATION */
+/* EDUCATION */
 
+.education-item {
+
+  grid-template-columns:
+    50px 1fr;
+
+  grid-template-areas:
+    "logo year"
+    "logo detail"
+    "logo result";
+
+  gap:
+    5px 14px;
+
+  padding: 19px 0;
+
+}
+
+
+.education-item:hover {
+
+  padding-left: 0;
+
+  padding-right: 0;
+
+  background: transparent;
+
+}
+
+
+.education-logo {
+
+  grid-area: logo;
+
+  width: 48px;
+
+  height: 48px;
+
+  align-self: start;
+
+}
+
+
+.education-logo img {
+
+  width: 38px;
+
+  height: 38px;
+
+}
+
+
+.education-year {
+
+  grid-area: year;
+
+  font-size: 10px;
+
+}
+
+
+.education-detail {
+
+  grid-area: detail;
+
+}
+
+
+.education-detail h3 {
+
+  margin-bottom: 4px;
+
+  font-size: 16px;
+
+  line-height: 1.35;
+
+}
+
+
+.education-detail p {
+
+  font-size: 11px;
+
+}
+
+
+.education-result {
+
+  grid-area: result;
+
+  text-align: left;
+
+  font-size: 11px;
+
+}
   .education-item {
 
     grid-template-columns: 1fr;
@@ -2866,7 +3035,40 @@ img {
 ========================================================= */
 
 @media (max-width: 360px) {
+.education-item {
 
+  grid-template-columns:
+    44px 1fr;
+
+  gap:
+    5px 11px;
+
+}
+
+
+.education-logo {
+
+  width: 42px;
+
+  height: 42px;
+
+}
+
+
+.education-logo img {
+
+  width: 33px;
+
+  height: 33px;
+
+}
+
+
+.education-detail h3 {
+
+  font-size: 15px;
+
+}
 
   .logo span {
 
