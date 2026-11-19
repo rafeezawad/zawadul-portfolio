@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Induction Motor Protection | Zawadul Portfolio</title>
+
+  <meta name="description"
+    content="Arduino-based single-phase induction motor fault detection and protection using multiple sensors and automatic relay isolation.">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .project-page { padding: 120px 0 85px; }
+
+    .project-back {
+      display: inline-block;
+      margin-bottom: 36px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .case-label {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+
+    .case-hero h1 {
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      max-width: 900px;
+      margin-bottom: 18px;
+    }
+
+    .case-description {
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 850px;
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 25px 0 45px;
+    }
+
+    .case-tags span {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 7px 12px;
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+
+    .case-section {
+      max-width: 1000px;
+      margin-bottom: 65px;
+    }
+
+    .case-number {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .case-section h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 18px;
+    }
+
+    .case-section p,
+    .case-section li {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .case-section p { margin-bottom: 14px; }
+
+    .case-section ul {
+      padding-left: 22px;
+      list-style: disc;
+    }
+
+    .case-section li { margin-bottom: 8px; }
+
+    .case-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .case-gallery figure {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,.02);
+    }
+
+    .case-gallery img {
+      width: 100%;
+      height: 320px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .case-gallery figcaption {
+      padding: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .case-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .case-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .case-card p {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .case-highlight {
+      padding: 22px;
+      border-left: 3px solid var(--accent);
+      background: rgba(99,212,234,.045);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .case-button {
+      display: inline-flex;
+      padding: 12px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 9px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 760px) {
+      .project-page { padding: 95px 0 65px; }
+      .case-hero h1 { font-size: 30px; }
+      .case-description { font-size: 14px; }
+      .case-gallery,
+      .case-grid { grid-template-columns: 1fr; }
+      .case-gallery img { height: 240px; }
+      .case-section p,
+      .case-section li { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <nav class="navbar container">
+
+    <a href="../index.html" class="logo">
+      ZAWADUL <span>/ PORTFOLIO</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#profile">Profile</a></li>
+      <li><a href="../index.html#education">Education</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#capabilities">Capabilities</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+
+    <button class="menu-btn" id="menuBtn"
+      aria-label="Open menu">☰</button>
+  </nav>
+</header>
+
+<main class="project-page">
+<div class="container">
+
+<a class="project-back" href="../index.html#projects">
+  ← Back to Projects
+</a>
+
+<section class="case-hero">
+  <p class="case-label">
+    POWER SYSTEM PROTECTION / INDUSTRIAL AUTOMATION
+  </p>
+
+  <h1>
+    Single-Phase Induction Motor
+    Fault Detection & Protection System
+  </h1>
+
+  <p class="case-description">
+    An Arduino-based multi-sensor fault detection and
+    protection prototype designed to monitor electrical
+    and environmental conditions and automatically
+    disconnect the connected load when a fault occurs.
+  </p>
+
+  <div class="case-tags">
+    <span>Arduino Uno</span>
+    <span>ACS712</span>
+    <span>ZMPT101B</span>
+    <span>SW-420</span>
+    <span>Relay Protection</span>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">01 / OVERVIEW</p>
+  <h2>Project Overview</h2>
+
+  <p>
+    This project demonstrates an Arduino-based protection
+    system for a single-phase induction motor or
+    connected electrical load.
+  </p>
+
+  <p>
+    The system monitors current, voltage, vibration,
+    flame and water conditions through dedicated sensors.
+    If any measured parameter crosses its programmed
+    threshold, the Arduino trips a relay to disconnect
+    the load and activates audible and visual alerts.
+  </p>
+
+  <p>
+    The prototype demonstrates threshold-based protection.
+    It does not perform advanced motor-fault diagnosis
+    or replace industrial-rated protective equipment.
+  </p>
+</section>
+
+<section class="case-section">
+  <p class="case-number">02 / PROJECT MEDIA</p>
+  <h2>Circuit & Hardware</h2>
+
+  <div class="case-gallery">
+    <figure>
+      <img
+        src="../assets/projects/induction-motor-protection/motor-circuit.png"
+        alt="Induction motor protection circuit diagram"
+      >
+      <figcaption>Protection Circuit Diagram</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="../assets/projects/induction-motor-protection/motor-hardware.jpg"
+        alt="Induction motor protection prototype"
+      >
+      <figcaption>Hardware Implementation</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">03 / OBJECTIVES</p>
+  <h2>Project Objectives</h2>
+
+  <ul>
+    <li>Continuously monitor voltage and current.</li>
+    <li>Detect abnormal vibration conditions.</li>
+    <li>Identify flame and water-related hazards.</li>
+    <li>Disconnect the load automatically during faults.</li>
+    <li>Display fault information on a 16×2 LCD.</li>
+    <li>Activate an audible buzzer warning.</li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">04 / COMPONENTS</p>
+  <h2>Main Components</h2>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <h3>Arduino Uno</h3>
+      <p>Main controller for monitoring and fault detection.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>ACS712 Current Sensor</h3>
+      <p>Measures current drawn by the connected load.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>ZMPT101B Voltage Sensor</h3>
+      <p>Monitors AC supply voltage.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>SW-420 Vibration Sensor</h3>
+      <p>Detects abnormal vibration conditions.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Flame Sensor</h3>
+      <p>Detects flame-related conditions.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Water Sensor</h3>
+      <p>Detects unsafe water or moisture conditions.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Relay & Buzzer</h3>
+      <p>Automatic isolation and audible fault warning.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>16×2 LCD</h3>
+      <p>Displays measurements and fault status.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">05 / FAULT DETECTION</p>
+  <h2>Protection Thresholds</h2>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <h3>Overcurrent</h3>
+      <p>Current greater than 1 A.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Overvoltage</h3>
+      <p>Voltage greater than 300 V.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Water Fault</h3>
+      <p>Sensor reading greater than 600.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Flame Alert</h3>
+      <p>Sensor reading below 700.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Vibration Fault</h3>
+      <p>SW-420 output HIGH.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">06 / WORKING PRINCIPLE</p>
+  <h2>Automatic Fault Protection</h2>
+
+  <p>
+    The Arduino continuously receives measurements
+    from the current, voltage, vibration, flame and
+    water sensors.
+  </p>
+
+  <p>
+    During normal operation, the relay remains ON.
+    When any parameter exceeds its programmed limit,
+    the controller identifies the corresponding fault
+    and switches the relay OFF.
+  </p>
+
+  <p>
+    The connected load is disconnected, the buzzer
+    activates, and the LCD displays the detected
+    fault and system status.
+  </p>
+</section>
+
+<section class="case-section">
+  <p class="case-number">07 / TESTING</p>
+  <h2>Experimental Validation</h2>
+
+  <p>
+    The project report documents 10 test conditions,
+    including normal operation, individual faults
+    and multiple simultaneous faults.
+  </p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <h3>Normal Operation</h3>
+      <p>
+        220 V, 0.60 A: no fault detected;
+        relay ON and buzzer OFF.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Overcurrent</h3>
+      <p>
+        1.20 A: overcurrent detected;
+        relay OFF and buzzer ON.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Overvoltage</h3>
+      <p>
+        305 V: overvoltage detected;
+        relay OFF and buzzer ON.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Environmental Faults</h3>
+      <p>
+        Water, flame and vibration fault conditions
+        triggered relay isolation and buzzer alerts.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">08 / LIMITATIONS</p>
+  <h2>Limitations & Challenges</h2>
+
+  <ul>
+    <li>
+      The system uses fixed thresholds rather than
+      advanced fault classification.
+    </li>
+    <li>
+      Measurement accuracy depends on sensor calibration.
+    </li>
+    <li>
+      The prototype does not monitor motor speed
+      or temperature.
+    </li>
+    <li>
+      Remote monitoring is not implemented.
+    </li>
+    <li>
+      Industrial applications would require properly
+      rated protection equipment and validation.
+    </li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">09 / FUTURE IMPROVEMENTS</p>
+  <h2>Future Development</h2>
+
+  <ul>
+    <li>Add motor temperature monitoring.</li>
+    <li>Implement under-voltage protection.</li>
+    <li>Integrate RPM measurement.</li>
+    <li>Add IoT-based monitoring and fault notifications.</li>
+    <li>Use an industrial-grade contactor and protection circuit.</li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">10 / TECHNICAL LEARNING</p>
+  <h2>Engineering Learning</h2>
+
+  <p>
+    The project provided experience with
+    sensor interfacing, real-time monitoring,
+    threshold-based protection logic,
+    relay control, Arduino programming,
+    fault indication and electrical system testing.
+  </p>
+</section>
+
+<section class="case-section">
+  <p class="case-number">11 / DOCUMENTATION</p>
+  <h2>Project Report</h2>
+
+  <p>
+    The full report includes the circuit diagram,
+    hardware specifications, protection thresholds,
+    working principle, test dataset and limitations.
+  </p>
+
+  <a
+    href="../assets/projects/induction-motor-protection/motor-report.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="case-button"
+  >
+    View Full Project Report ↗
+  </a>
+</section>
+
+<a class="project-back" href="../index.html#projects">
+  ← Back to All Projects
+</a>
+
+</div>
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>

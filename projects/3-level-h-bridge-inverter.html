@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>3-Level H-Bridge Inverter | Zawadul Portfolio</title>
+
+  <meta name="description"
+    content="Design and implementation of a 12V three-level H-Bridge inverter using Arduino Uno, MOSFETs and transistor gate drivers.">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .project-page {
+      padding: 120px 0 85px;
+    }
+
+    .project-back {
+      display: inline-block;
+      margin-bottom: 36px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .case-label {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+
+    .case-hero h1 {
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      max-width: 850px;
+      margin-bottom: 18px;
+    }
+
+    .case-description {
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 850px;
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 25px 0 45px;
+    }
+
+    .case-tags span {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 7px 12px;
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+
+    .case-section {
+      max-width: 1000px;
+      margin-bottom: 65px;
+    }
+
+    .case-number {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .case-section h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 18px;
+    }
+
+    .case-section p,
+    .case-section li {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .case-section p {
+      margin-bottom: 14px;
+    }
+
+    .case-section ul {
+      padding-left: 22px;
+      list-style: disc;
+    }
+
+    .case-section li {
+      margin-bottom: 8px;
+    }
+
+    .case-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .case-gallery figure {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,.02);
+    }
+
+    .case-gallery img {
+      width: 100%;
+      height: 320px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .case-gallery figcaption {
+      padding: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .case-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .case-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .case-card p {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .case-highlight {
+      padding: 22px;
+      border-left: 3px solid var(--accent);
+      background: rgba(99,212,234,.045);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .case-highlight strong {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .case-button {
+      display: inline-flex;
+      padding: 12px 20px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+
+    .case-button:hover {
+      background: rgba(99,212,234,.08);
+    }
+
+    @media (max-width: 760px) {
+      .project-page { padding: 95px 0 65px; }
+      .case-hero h1 { font-size: 30px; }
+      .case-description { font-size: 14px; }
+      .case-gallery,
+      .case-grid { grid-template-columns: 1fr; }
+      .case-gallery img { height: 240px; }
+      .case-section p,
+      .case-section li { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <nav class="navbar container">
+    <a href="../index.html" class="logo">
+      ZAWADUL <span>/ PORTFOLIO</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#profile">Profile</a></li>
+      <li><a href="../index.html#education">Education</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#capabilities">Capabilities</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+
+    <button class="menu-btn" id="menuBtn"
+      aria-label="Open menu">☰</button>
+  </nav>
+</header>
+
+<main class="project-page">
+<div class="container">
+
+<a class="project-back" href="../index.html#projects">
+  ← Back to Projects
+</a>
+
+<section class="case-hero">
+  <p class="case-label">
+    POWER ELECTRONICS / INVERTER DESIGN
+  </p>
+
+  <h1>3-Level Cascaded H-Bridge Inverter</h1>
+
+  <p class="case-description">
+    A practical 12 V DC-to-AC inverter developed using Arduino Uno,
+    IRF3205 and IRF9540N MOSFETs, and BC548 transistor-based
+    gate drivers. The project demonstrates three-level switching,
+    PWM control and experimental waveform verification.
+  </p>
+
+  <div class="case-tags">
+    <span>Arduino Uno</span>
+    <span>Power Electronics</span>
+    <span>MOSFET Switching</span>
+    <span>PWM</span>
+    <span>DC-AC Conversion</span>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">01 / OVERVIEW</p>
+  <h2>Project Overview</h2>
+
+  <p>
+    This project involved designing and implementing a
+    three-level H-Bridge inverter capable of converting
+    a 12 V DC input into a stepped AC output.
+  </p>
+
+  <p>
+    The implemented prototype uses a single H-Bridge stage
+    with four MOSFETs. Arduino-generated switching signals
+    control the bridge through BC548 transistor driver stages.
+    The output consists of three voltage levels:
+    +12 V, 0 V and -12 V.
+  </p>
+
+  <p>
+    Although the initial project objective involved a
+    five-level cascaded inverter, practical gate-drive
+    challenges led the team to complete a functional
+    three-level implementation.
+  </p>
+</section>
+
+<section class="case-section">
+  <p class="case-number">02 / PROJECT MEDIA</p>
+  <h2>Hardware, Circuit & Waveform</h2>
+
+  <div class="case-gallery">
+    <figure>
+      <img
+        src="../assets/projects/h-bridge-inverter/inverter-circuit.png"
+        alt="Three-level H-Bridge inverter circuit diagram"
+      >
+      <figcaption>Circuit Diagram</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="../assets/projects/h-bridge-inverter/inverter-hardware.jpg"
+        alt="Practical inverter hardware implementation"
+      >
+      <figcaption>Hardware Implementation</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="../assets/projects/h-bridge-inverter/inverter-waveform.png"
+        alt="Measured inverter output waveform"
+      >
+      <figcaption>Oscilloscope Output Waveform</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">03 / OBJECTIVES</p>
+  <h2>Project Objectives</h2>
+
+  <ul>
+    <li>Convert a 12 V DC supply into a stepped AC output.</li>
+    <li>Implement MOSFET-based H-Bridge switching.</li>
+    <li>Use Arduino Uno for switching-signal generation.</li>
+    <li>Use BC548 transistor-based gate drivers.</li>
+    <li>Verify the output waveform with a digital oscilloscope.</li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">04 / COMPONENTS</p>
+  <h2>Main Components</h2>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <h3>Arduino Uno</h3>
+      <p>ATmega328P microcontroller used for switching control.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>12 V Battery</h3>
+      <p>DC input power supply.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>IRF3205 MOSFETs</h3>
+      <p>Two N-channel switching devices.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>IRF9540N MOSFETs</h3>
+      <p>Two P-channel switching devices.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>BC548 Transistors</h3>
+      <p>Two NPN transistors used in gate-drive interfacing.</p>
+    </div>
+
+    <div class="case-card">
+      <h3>Resistors & Breadboard</h3>
+      <p>Gate biasing, load connection and prototype assembly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">05 / WORKING PRINCIPLE</p>
+  <h2>H-Bridge Operation</h2>
+
+  <p>
+    The four MOSFETs are arranged in an H-Bridge configuration.
+    The Arduino controls the switching sequence to reverse
+    current through the load and generate alternating polarity.
+  </p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <h3>Positive Output</h3>
+      <p>
+        The appropriate diagonal MOSFET pair conducts,
+        producing approximately +12 V across the load.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Zero Output</h3>
+      <p>
+        A zero-voltage switching state is inserted
+        between positive and negative output intervals.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Negative Output</h3>
+      <p>
+        The opposite diagonal MOSFET pair conducts,
+        producing approximately -12 V across the load.
+      </p>
+    </div>
+
+    <div class="case-card">
+      <h3>Switching Control</h3>
+      <p>
+        Complementary control signals and dead-time intervals
+        are used to reduce the risk of simultaneous
+        conduction in a bridge leg.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">06 / TESTING & RESULTS</p>
+  <h2>Experimental Results</h2>
+
+  <p>
+    The inverter output was observed using a digital
+    oscilloscope. The measured waveform demonstrated
+    three voltage levels and an output frequency close
+    to the intended 50 Hz.
+  </p>
+
+  <div class="case-highlight">
+    <strong>54.88 Hz</strong>
+    <p>Measured output frequency</p>
+    <p>Target frequency: 50 Hz</p>
+    <p>Output levels: +12 V, 0 V and -12 V</p>
+  </div>
+</section>
+
+<section class="case-section">
+  <p class="case-number">07 / CHALLENGES</p>
+  <h2>Implementation Challenges</h2>
+
+  <ul>
+    <li>
+      The initial five-level inverter design worked in
+      simulation but did not operate successfully on hardware.
+    </li>
+    <li>
+      Gate-drive timing and switching reliability required
+      careful consideration.
+    </li>
+    <li>
+      Slight asymmetry was observed between the positive
+      and negative waveform peaks.
+    </li>
+    <li>
+      The measured output frequency differed from the
+      intended 50 Hz.
+    </li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">08 / FUTURE IMPROVEMENTS</p>
+  <h2>Potential Improvements</h2>
+
+  <ul>
+    <li>Implement the originally planned five-level inverter.</li>
+    <li>Use dedicated MOSFET gate-driver ICs.</li>
+    <li>Move from breadboard to a custom PCB.</li>
+    <li>Improve switching timing and waveform symmetry.</li>
+    <li>Extend the design to higher voltage and power ratings.</li>
+  </ul>
+</section>
+
+<section class="case-section">
+  <p class="case-number">09 / TECHNICAL LEARNING</p>
+  <h2>Engineering Learning</h2>
+
+  <p>
+    This project provided practical experience in
+    DC-to-AC conversion, H-Bridge topology,
+    MOSFET switching, gate-driver interfacing,
+    Arduino-based control, waveform measurement
+    and hardware troubleshooting.
+  </p>
+</section>
+
+<section class="case-section">
+  <p class="case-number">10 / DOCUMENTATION</p>
+  <h2>Project Report</h2>
+
+  <p>
+    View the complete technical report, including the
+    circuit design, component specifications,
+    implementation details and experimental waveform.
+  </p>
+
+  <a
+    href="../assets/projects/h-bridge-inverter/inverter-report.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="case-button"
+  >
+    View Full Project Report ↗
+  </a>
+</section>
+
+<a class="project-back" href="../index.html#projects">
+  ← Back to All Projects
+</a>
+
+</div>
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>
